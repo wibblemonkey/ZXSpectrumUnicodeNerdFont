@@ -8,8 +8,9 @@ from os import walk
 glyphlist = "../reference/glyphlist.txt"
 glyphPath = "../glyphs/"
 buildPath = "../build/"
-fontname = "ZXSpectrum"
+fontname = "ZXSpectrumUnicode"
 fullname = "ZX Spectrum Unicode"
+copyright = "Public Domain"
 ascent = 700
 descent = 100
 em = 800
@@ -20,6 +21,8 @@ def createFont():
   font = fontforge.font()
   font.fontname = fontname
   font.fullname = fullname
+  font.familyname = fullname
+  font.copyright = copyright
   font.ascent = ascent
   font.descent = descent
   font.em = em
@@ -64,15 +67,17 @@ def processUnnamedGlyphs():
     createCodedChar(code, path+file)
 
 #Main
-print "Creating the new font empty"
+print ("Creating the new font empty")
 #font = fontforge.open("blank.sfd")
 font = createFont()
 
-print "Process glyphs"
+print ("Process glyphs")
 processGlyphList()
 processUnnamedGlyphs()
 createSpace()
 
 font.save(buildPath+fontname+".sfd")
 font.generate(buildPath+fontname+".ttf")
-font.generate(buildPath+fontname+".bdf","bdf")
+font.generate(buildPath+fontname+".otf")
+font.generate(buildPath+fontname+".woff")
+font.generate(buildPath+fontname+".woff2")
